@@ -24,12 +24,13 @@ function addLeftFileList() {
         div.style = "border-top: 1px solid black; margin: 10px;";
         navigationSubList.appendChild(div);
         for(let i = 0; i < linkList.length; i++){
-            let textContent = linkList[i].textContent;
+            let clonedLink = linkList[i].cloneNode(true);
+            let textContent = clonedLink.textContent;
             const splitUrl = textContent.split("/");
             let linkText = `${splitUrl[splitUrl.length-2]}/${splitUrl[splitUrl.length-1]}`;
-            linkList[i].textContent = linkText;
-            linkList[i].title = textContent;
-            navigationSubList.appendChild(linkList[i].cloneNode(true));                
+            clonedLink.textContent = linkText;
+            clonedLink.title = textContent;
+            navigationSubList.appendChild(clonedLink);                
         }
     } else {
         console.warn("Delay: No summary element found");
