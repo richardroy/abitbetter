@@ -51,7 +51,7 @@ function insertDiffTotal() {
 
         let spanTotal = document.createElement("span");
         spanTotal.className = totalClass;
-        spanTotal.textContent = totalDif;
+        spanTotal.textContent = totalText;
     
         li.appendChild(div);
         div.appendChild(spanAdded);
