@@ -38,7 +38,7 @@ function insertDiffTotal() {
     
         let spanAdded = document.createElement("span");
         spanAdded.className = linesAddedClass;
-        spanAdded.textContent = totalAdded;
+        spanAdded.textContent = `+${totalAdded}`;
     
         let spanRemoved = document.createElement("span");
         spanRemoved.className = linesRemovedClass;
@@ -47,9 +47,11 @@ function insertDiffTotal() {
         let totalDif = totalAdded + totalRemoved;
         let totalClass = totalDif >= 0 ? linesAddedClass : linesRemovedClass;
     
+        let totalText = totalDif > 0 ? `+${totalDif}` : totalDif;
+
         let spanTotal = document.createElement("span");
         spanTotal.className = totalClass;
-        spanTotal.textContent = totalDif;
+        spanTotal.textContent = totalText;
     
         li.appendChild(div);
         div.appendChild(spanAdded);
