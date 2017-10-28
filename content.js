@@ -1,21 +1,10 @@
-
-window.onload = function(event){
-    console.log("window.onload");
-    // runChanges();
-}
-
-window.document.body.onload = function(event) {
-    console.log("window.document.body.onload");
-}
-
 window.addEventListener ("load", myMain, false);
 
 function myMain (evt) {
-    runChanges();
-    console.log("myMain");
+    insertDiffTotal();
 }
 
-function runChanges() {
+function insertDiffTotal() {
     //enter here the action you want to do once loaded
     console.log("runChanges");
 
@@ -29,36 +18,36 @@ function runChanges() {
     const summaryElement = window.document.getElementById(commitFilesSummaryId);
     if(summaryElement){
 
-        var removed  = summaryElement.getElementsByClassName(linesRemovedClass);
-        var totalRemoved = 0;
-        for (var i = 0; i < removed.length; i++) {
+        let removed  = summaryElement.getElementsByClassName(linesRemovedClass);
+        let totalRemoved = 0;
+        for (let i = 0; i < removed.length; i++) {
             totalRemoved += parseInt(removed[i].innerText);
         };
     
-        var added  = summaryElement.getElementsByClassName(linesAddedClass);
-        var totalAdded = 0;
-        for (var i = 0; i < added.length; i++) {
+        let added  = summaryElement.getElementsByClassName(linesAddedClass);
+        let totalAdded = 0;
+        for (let i = 0; i < added.length; i++) {
             totalAdded += parseInt(added[i].innerText);
         };
 
-        var li = document.createElement("li");
+        let li = document.createElement("li");
         li.className = fileSummaryRowClass;
     
-        var div = document.createElement("div");
+        let div = document.createElement("div");
         div.className = diffStatsDivClass;
     
-        var spanAdded = document.createElement("span");
+        let spanAdded = document.createElement("span");
         spanAdded.className = linesAddedClass;
         spanAdded.textContent = totalAdded;
     
-        var spanRemoved = document.createElement("span");
+        let spanRemoved = document.createElement("span");
         spanRemoved.className = linesRemovedClass;
         spanRemoved.textContent = totalRemoved;
     
-        var totalDif = totalAdded + totalRemoved;
-        var totalClass = totalDif >= 0 ? linesAddedClass : linesRemovedClass;
+        let totalDif = totalAdded + totalRemoved;
+        let totalClass = totalDif >= 0 ? linesAddedClass : linesRemovedClass;
     
-        var spanTotal = document.createElement("span");
+        let spanTotal = document.createElement("span");
         spanTotal.className = totalClass;
         spanTotal.textContent = totalDif;
     
