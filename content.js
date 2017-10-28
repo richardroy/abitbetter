@@ -20,7 +20,9 @@ function addLeftFileList() {
         const linkListName = summaryElement.getElementsByClassName(fileListLinkClass);
         const linkList = linkListName;        
         const navigationSubList = document.getElementById("adg3-navigation").firstChild.firstChild.firstChild.firstChild.childNodes[1].firstChild.childNodes[2].firstChild.firstChild;
-        
+        let div = document.createElement("div");
+        div.style = "border-top: 1px solid black; margin: 10px;";
+        navigationSubList.appendChild(div);
         for(let i = 0; i < linkList.length; i++){
             let textContent = linkList[i].textContent;
             const splitUrl = textContent.split("/");
