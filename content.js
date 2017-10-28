@@ -27,7 +27,7 @@ function addLeftFileList() {
             let clonedLink = linkList[i].cloneNode(true);
             let textContent = clonedLink.textContent;
             const splitUrl = textContent.split("/");
-            let linkText = `${splitUrl[splitUrl.length-2]}/${splitUrl[splitUrl.length-1]}`;
+            let linkText = `/${splitUrl[splitUrl.length-1]}`;
             clonedLink.textContent = linkText;
             clonedLink.title = textContent;
             navigationSubList.appendChild(clonedLink);                
