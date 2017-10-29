@@ -1,6 +1,5 @@
 window.addEventListener ("load", myMain, false);
 
-    //classes exist?
 const fileSummaryRowClass = "iterable-item file file-modified"    
 const fileListLinkClass = "commit-files-summary--filename";
 const commitFilesSummaryId = "commit-files-summary";
