@@ -33,22 +33,14 @@ function collapsableDiffs() {
     const diffContainers = window.document.getElementsByClassName(diffContainerClass);
 
     for(let i = 0; i < diffContainers.length; i++) {
-        // console.log(diffContainers[i]);
         const diffContainerHeader = diffContainers[i].getElementsByClassName("heading")[0];
         const diffContainerBody = diffContainers[i].getElementsByClassName("diff-content-container refract-container")[0];
-        // diffContainerBody.addEventListener
         let minimisedElement = document.createElement("span");
         minimisedElement.className = "diff-entry-lozenge aui-lozenge";
         minimisedElement.textContent = "Minimize";
         minimisedElement.onclick = function(){alternateCollapse(minimisedElement, diffContainerBody, diffContainerHeader)};
-
-        // minimisedElement.addEventListener("click", alternateCollapse(minimisedElement), false)
-
-        //add button
         const diffContainerHeaderTitle = diffContainerHeader.getElementsByClassName("filename")[0];
         diffContainerHeaderTitle.appendChild(minimisedElement);
-        
-        // diffContainerBody[0].style = "display: none;";     
     }
 
 }
