@@ -8,10 +8,46 @@ const diffStatsDivClass = "commit-file-diff-stats";
 const linesRemovedClass = "lines-removed";
 const linesAddedClass = "lines-added";    
 const navigationParentClass = "adg3-navigation";
+const diffContainerClass = "diff-container";
+const diffBodyClass = "diff-content-container refract-container";
+const diffHeaderClass = "heading";
+const minimizeButtonClass = "diff-entry-lozenge aui-lozenge";
+const headerFilenameClass = "filename";
+const leftNavigationId = "adg3-navigation";
 
 function myMain (evt) {
     insertDiffTotal();
     addLeftFileList();
+    collapsableDiffs();
+}
+
+function alternateCollapse(minimisedElement, diffContainerBody, diffContainerHeader) {
+    console.log(diffContainerBody);
+    if(minimisedElement.textContent === "Minimize") {
+        minimisedElement.textContent = "Expand";
+        diffContainerBody.style = "display: none;";
+        diffContainerHeader.style = "border-bottom: 1px solid #abc; margin-bottom: -40px";
+    } else {
+        minimisedElement.textContent = "Minimize";
+        diffContainerBody.style = "";
+        diffContainerHeader.style = "border-bottom: none";        
+    }
+}
+
+function collapsableDiffs() {
+    const diffContainers = window.document.getElementsByClassName(diffContainerClass);
+
+    for(let i = 0; i < diffContainers.length; i++) {
+        const diffContainerHeader = diffContainers[i].getElementsByClassName(diffHeaderClass)[0];
+        const diffContainerBody = diffContainers[i].getElementsByClassName(diffBodyClass)[0];
+        let minimisedElement = document.createElement("span");
+        minimisedElement.className = minimizeButtonClass;
+        minimisedElement.textContent = "Minimize";
+        minimisedElement.onclick = function(){alternateCollapse(minimisedElement, diffContainerBody, diffContainerHeader)};
+        const diffContainerHeaderTitle = diffContainerHeader.getElementsByClassName(headerFilenameClass)[0];
+        diffContainerHeaderTitle.appendChild(minimisedElement);
+    }
+
 }
 
 function addLeftFileList() {
@@ -19,7 +55,7 @@ function addLeftFileList() {
     if(summaryElement){
         const linkListName = summaryElement.getElementsByClassName(fileListLinkClass);
         const linkList = linkListName;        
-        const navigationSubList = document.getElementById("adg3-navigation").firstChild.firstChild.firstChild.firstChild.childNodes[1].firstChild.childNodes[2].firstChild.firstChild;
+        const navigationSubList = document.getElementById(leftNavigationId).firstChild.firstChild.firstChild.firstChild.childNodes[1].firstChild.childNodes[2].firstChild.firstChild;
         let div = document.createElement("div");
         div.style = "border-top: 1px solid black; margin: 10px;";
         navigationSubList.appendChild(div);
