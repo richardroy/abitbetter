@@ -95,7 +95,7 @@ function collapsableDiffs() {
 
     let minimisedElement = document.createElement("span");
     minimisedElement.className = minimizeButtonClass;
-    minimisedElement.textContent = "Minimize";
+    minimisedElement.textContent = `Minimize All`;
     minimisedElement.onclick = function(){allCollapsableDiffs(minimisedElement)};
 
     const summaryElement = window.document.getElementById(commitFilesSummaryId);
