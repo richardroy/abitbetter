@@ -3,7 +3,7 @@
 
   "name": "ABitBetter",
   "description": "This extension will add a diff summary to the base of a pull request",
-  "version": "0.2",
+  "version": "0.3",
 
   "content_scripts": [{
     "matches": ["https://bitbucket.org/*"], 
