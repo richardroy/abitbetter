@@ -28,7 +28,7 @@ observeDOM( document.getElementById('page') , function(){
 
 const diffBodyClass = "diff-content-container refract-container";
 const fileSummaryRowClass = "iterable-item file file-modified"    
-const minimizeButtonClass = "diff-entry-lozenge aui-lozenge";
+const minimizeButtonClass = "diff-entry-lozenge aui-lozenge collapsable";
 const fileListLinkClass = "commit-files-summary--filename";
 const commitFilesSummaryId = "commit-files-summary";
 const diffStatsDivClass = "commit-file-diff-stats";
@@ -64,6 +64,21 @@ function alternateCollapse(minimisedElement, diffContainerBody, diffContainerHea
     }
 }
 
+function allCollapsableDiffs(minimiseAllElement) {
+    const diffContainers = window.document.getElementsByClassName(diffContainerClass);    
+    for(let i = 0; i < diffContainers.length; i++) {
+        const diffContainerHeader = diffContainers[i].getElementsByClassName(diffHeaderClass)[0];
+        const diffContainerBody = diffContainers[i].getElementsByClassName(diffBodyClass)[0];
+        const minimizeButton = diffContainerHeader.getElementsByClassName(minimizeButtonClass)[0];
+
+        if(String(minimiseAllElement.textContent).includes(minimizeButton.textContent)) {
+            alternateCollapse(minimizeButton, diffContainerBody, diffContainerHeader);
+        }
+    }
+    
+    minimiseAllElement.textContent = minimiseAllElement.textContent == `Minimize All` ? `Expand All` : `Minimize All`    
+}
+
 function collapsableDiffs() {
     const diffContainers = window.document.getElementsByClassName(diffContainerClass);
 
@@ -78,6 +93,13 @@ function collapsableDiffs() {
         diffContainerHeaderTitle.appendChild(minimisedElement);
     }
 
+    let minimisedElement = document.createElement("span");
+    minimisedElement.className = minimizeButtonClass;
+    minimisedElement.textContent = "Minimize";
+    minimisedElement.onclick = function(){allCollapsableDiffs(minimisedElement)};
+
+    const summaryElement = window.document.getElementById(commitFilesSummaryId);
+    summaryElement.appendChild(minimisedElement);
 }
 
 function addLeftFileList() {
