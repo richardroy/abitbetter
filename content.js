@@ -96,7 +96,9 @@ function addLeftFileList() {
             let linkText = `/${splitUrl[splitUrl.length-1]}`;
             clonedLink.textContent = linkText;
             clonedLink.title = textContent;
-            navigationSubList.appendChild(clonedLink);                
+            let linkWrapper = document.createElement("div");
+            linkWrapper.appendChild(clonedLink);
+            navigationSubList.appendChild(linkWrapper);                
         }
     } else {
         console.warn("Delay: No summary element found");
