@@ -26,9 +26,10 @@ observeDOM( document.getElementById('page') , function(){
     setTimoutVar = setTimeout(myMain, 1000);       
 });
 
-const diffBodyClass = "diff-content-container refract-container";
-const fileSummaryRowClass = "iterable-item file file-modified"    
 const minimizeButtonClass = "diff-entry-lozenge aui-lozenge collapsable";
+const diffRefractorBodyClass = "diff-content-container refract-container";
+const diffContentBodyClass = "diff-content-container content-container";
+const fileSummaryRowClass = "iterable-item file file-modified"    
 const fileListLinkClass = "commit-files-summary--filename";
 const commitFilesSummaryId = "commit-files-summary";
 const diffStatsDivClass = "commit-file-diff-stats";
@@ -68,14 +69,17 @@ function allCollapsableDiffs(minimiseAllElement) {
     const diffContainers = window.document.getElementsByClassName(diffContainerClass);    
     for(let i = 0; i < diffContainers.length; i++) {
         const diffContainerHeader = diffContainers[i].getElementsByClassName(diffHeaderClass)[0];
-        const diffContainerBody = diffContainers[i].getElementsByClassName(diffBodyClass)[0];
+        let diffContainerBody = diffContainers[i].getElementsByClassName(diffRefractorBodyClass)[0];
+        if(!diffContainerBody) {
+            diffContainerBody = diffContainers[i].getElementsByClassName(diffContentBodyClass)[0];
+        }
         const minimizeButton = diffContainerHeader.getElementsByClassName(minimizeButtonClass)[0];
 
         if(String(minimiseAllElement.textContent).includes(minimizeButton.textContent)) {
+            console.log(diffContainerBody);
             alternateCollapse(minimizeButton, diffContainerBody, diffContainerHeader);
         }
     }
-    
     minimiseAllElement.textContent = minimiseAllElement.textContent == `Minimize All` ? `Expand All` : `Minimize All`    
 }
 
@@ -84,7 +88,7 @@ function collapsableDiffs() {
 
     for(let i = 0; i < diffContainers.length; i++) {
         const diffContainerHeader = diffContainers[i].getElementsByClassName(diffHeaderClass)[0];
-        const diffContainerBody = diffContainers[i].getElementsByClassName(diffBodyClass)[0];
+        const diffContainerBody = diffContainers[i].getElementsByClassName(diffRefractorBodyClass)[0];
         let minimisedElement = document.createElement("span");
         minimisedElement.className = minimizeButtonClass;
         minimisedElement.textContent = "Minimize";
