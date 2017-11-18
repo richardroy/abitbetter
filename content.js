@@ -1,27 +1,58 @@
-window.addEventListener ("load", myMain, false);
+var observeDOM = (function(){
+    var MutationObserver = window.MutationObserver || window.WebKitMutationObserver,
+        eventListenerSupported = window.addEventListener;
 
+    return function(obj, callback){
+        if( MutationObserver ){
+            // define a new observer
+            var obs = new MutationObserver(function(mutations, observer){
+                if( mutations[0].addedNodes.length || mutations[0].removedNodes.length )
+                    callback();
+            });
+            // have the observer observe foo for changes in children
+            obs.observe( obj, { childList:true, subtree:true });
+        }
+        else if( eventListenerSupported ){
+            obj.addEventListener('DOMNodeInserted', callback, false);
+            obj.addEventListener('DOMNodeRemoved', callback, false);
+        }
+    };
+})();
+
+let setTimoutVar;
+// Observe a specific DOM element:
+observeDOM( document.getElementById('page') , function(){ 
+    clearTimeout(setTimoutVar);    
+    setTimoutVar = setTimeout(myMain, 1000);       
+});
+
+const diffBodyClass = "diff-content-container refract-container";
 const fileSummaryRowClass = "iterable-item file file-modified"    
+const minimizeButtonClass = "diff-entry-lozenge aui-lozenge";
 const fileListLinkClass = "commit-files-summary--filename";
 const commitFilesSummaryId = "commit-files-summary";
 const diffStatsDivClass = "commit-file-diff-stats";
-const linesRemovedClass = "lines-removed";
-const linesAddedClass = "lines-added";    
 const navigationParentClass = "adg3-navigation";
 const diffContainerClass = "diff-container";
-const diffBodyClass = "diff-content-container refract-container";
-const diffHeaderClass = "heading";
-const minimizeButtonClass = "diff-entry-lozenge aui-lozenge";
-const headerFilenameClass = "filename";
+const completeSignatureId = "abb-completed";
 const leftNavigationId = "adg3-navigation";
+const linesRemovedClass = "lines-removed";
+const headerFilenameClass = "filename";
+const linesAddedClass = "lines-added";    
+const diffHeaderClass = "heading";
 
-function myMain (evt) {
-    insertDiffTotal();
-    addLeftFileList();
-    collapsableDiffs();
+function myMain () {
+    const completed = window.document.getElementById(completeSignatureId);
+    const diffContainers = window.document.getElementsByClassName(diffContainerClass);
+    if(diffContainers.length > 0 && !completed) {
+        insertDiffTotal();
+        addLeftFileList();
+        collapsableDiffs();
+        addSignature();
+    }
 }
 
 function alternateCollapse(minimisedElement, diffContainerBody, diffContainerHeader) {
-    console.log(diffContainerBody);
     if(minimisedElement.textContent === "Minimize") {
         minimisedElement.textContent = "Expand";
         diffContainerBody.style = "display: none;";
@@ -74,8 +105,6 @@ function addLeftFileList() {
 
 function insertDiffTotal() {
     //enter here the action you want to do once loaded
-    console.log("runChanges");
-
     const summaryElement = window.document.getElementById(commitFilesSummaryId);
     if(summaryElement){
         let removed  = summaryElement.getElementsByClassName(linesRemovedClass);
@@ -122,4 +151,11 @@ function insertDiffTotal() {
     } else {
         console.warn("Delay: No summary element found");
     }
+}
+
+function addSignature() {
+    const pageElement = window.document.getElementById('page');
+    let spanAdded = document.createElement("span");
+    spanAdded.id = completeSignatureId;
+    pageElement.appendChild(spanAdded);
 }

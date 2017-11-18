@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
 
-  "name": "ABitMore",
+  "name": "ABitBetter",
   "description": "This extension will add a diff summary to the base of a pull request",
-  "version": "0.1",
+  "version": "0.2",
 
   "content_scripts": [{
     "matches": ["https://bitbucket.org/*"], 
