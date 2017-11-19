@@ -27,6 +27,7 @@ observeDOM( document.getElementById('page') , function(){
 });
 
 const fileChangeSummaryLozenge = "diff-summary-lozenge aui-lozenge aui-lozenge-subtle";
+const diffTypeLozengeClass = "diff-entry-lozenge aui-lozenge aui-lozenge-subtle";
 const diffRefractorBodyClass = "diff-content-container refract-container";
 const minimizeButtonClass = "diff-entry-lozenge aui-lozenge collapsable";
 const diffContentBodyClass = "diff-content-container content-container";
@@ -58,17 +59,34 @@ function myMain () {
         collapsableDiffs();
         addSignature();
         addFileSummary();
+        reshuffle();
+    }
+}
+
+function reshuffle() {
+    const diffContainers = window.document.getElementsByClassName(diffContainerClass);
+    const diffParent = diffContainers[0].parentElement.parentElement;
+    const shuffleDiffs = [];
+    for(let i = 0; i < diffContainers.length; i++) {
+        const typeLozenge = diffContainers[i].getElementsByClassName(diffTypeLozengeClass)[0];
+        const typeLozengeContent = typeLozenge.textContent.replace(/\W/g, '');
+        console.log(typeLozengeContent);
+        if(typeLozengeContent == "Deleted" || typeLozengeContent == "Renamed" ) {
+            shuffleDiffs.push(diffContainers[i]);
+        }
+    }
+
+    for(let i = 0; i < shuffleDiffs.length; i++) {
+        diffParent.appendChild(shuffleDiffs[i].parentElement);
     }
 }
 
 function addFileSummary() {
     const fileSummaryLozenges = window.document.getElementsByClassName(fileChangeSummaryLozenge);
     const summary = {};
-    console.log(fileSummaryLozenges);
     for(let i = 0; i < fileSummaryLozenges.length; i++) {
         let changeText = fileSummaryLozenges[i].textContent;
         changeText = changeText.replace(/\W/g, '');
-        console.log(changeText);
         const currentCount = summary[changeText];
         summary[changeText] = summary[changeText] ? currentCount + 1 : 1;
     }
@@ -128,7 +146,6 @@ function allCollapsableDiffs(minimiseAllElement) {
         const minimizeButton = diffContainerHeader.getElementsByClassName(minimizeButtonClass)[0];
 
         if(String(minimiseAllElement.textContent).includes(minimizeButton.textContent)) {
-            console.log(diffContainerBody);
             alternateCollapse(minimizeButton, diffContainerBody, diffContainerHeader);
         }
     }
