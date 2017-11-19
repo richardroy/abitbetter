@@ -54,23 +54,37 @@ function myMain () {
     const completed = window.document.getElementById(completeSignatureId);
     const diffContainers = window.document.getElementsByClassName(diffContainerClass);
     if(diffContainers.length > 0 && !completed) {
+        reshuffle();
         insertDiffTotal();
         addLeftFileList();
         collapsableDiffs();
         addSignature();
         addFileSummary();
-        reshuffle();
     }
 }
 
 function reshuffle() {
+    const summaryElement = window.document.getElementById(commitFilesSummaryId);
+    const shuffleFileSummaries = [];
+    for(let i = 0; i < summaryElement.childNodes.length; i++) {
+        if(summaryElement.childNodes[i].nodeName == `LI`){
+            const summaryLozenge = summaryElement.childNodes[i].getElementsByClassName(fileChangeSummaryLozenge)[0];
+            if(summaryLozenge && (summaryLozenge.textContent.replace(/\W/g, '') == `D` || summaryLozenge.textContent.replace(/\W/g, '') == `R`))
+                shuffleFileSummaries.push(summaryElement.childNodes[i]);
+        }
+    }
+    for(let i = 0; i < shuffleFileSummaries.length; i++) {
+        console.log(shuffleFileSummaries[i])
+        summaryElement.appendChild(shuffleFileSummaries[i]);
+    }
+
+    // Diffs
     const diffContainers = window.document.getElementsByClassName(diffContainerClass);
     const diffParent = diffContainers[0].parentElement.parentElement;
     const shuffleDiffs = [];
     for(let i = 0; i < diffContainers.length; i++) {
         const typeLozenge = diffContainers[i].getElementsByClassName(diffTypeLozengeClass)[0];
         const typeLozengeContent = typeLozenge.textContent.replace(/\W/g, '');
-        console.log(typeLozengeContent);
         if(typeLozengeContent == "Deleted" || typeLozengeContent == "Renamed" ) {
             shuffleDiffs.push(diffContainers[i]);
         }
