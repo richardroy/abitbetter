@@ -140,7 +140,10 @@ function collapsableDiffs() {
 
     for(let i = 0; i < diffContainers.length; i++) {
         const diffContainerHeader = diffContainers[i].getElementsByClassName(diffHeaderClass)[0];
-        const diffContainerBody = diffContainers[i].getElementsByClassName(diffRefractorBodyClass)[0];
+        let diffContainerBody = diffContainers[i].getElementsByClassName(diffRefractorBodyClass)[0];
+        if(!diffContainerBody) {
+            diffContainerBody = diffContainers[i].getElementsByClassName(diffContentBodyClass)[0];
+        }
         let minimisedElement = document.createElement("span");
         minimisedElement.className = minimizeButtonClass;
         minimisedElement.textContent = "Minimize";
