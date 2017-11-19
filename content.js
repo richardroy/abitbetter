@@ -26,8 +26,9 @@ observeDOM( document.getElementById('page') , function(){
     setTimoutVar = setTimeout(myMain, 1000);       
 });
 
-const minimizeButtonClass = "diff-entry-lozenge aui-lozenge collapsable";
+const fileChangeSummaryLozenge = "diff-summary-lozenge aui-lozenge aui-lozenge-subtle";
 const diffRefractorBodyClass = "diff-content-container refract-container";
+const minimizeButtonClass = "diff-entry-lozenge aui-lozenge collapsable";
 const diffContentBodyClass = "diff-content-container content-container";
 const fileSummaryRowClass = "iterable-item file file-modified"    
 const fileListLinkClass = "commit-files-summary--filename";
@@ -42,6 +43,12 @@ const headerFilenameClass = "filename";
 const linesAddedClass = "lines-added";    
 const diffHeaderClass = "heading";
 
+const fileChangeSummaryLozengeCompleteClass = `aui-lozenge-complete`;
+const fileChangeSummaryLozengeDeletedClass = `aui-lozenge-error`;
+const fileChangeSummaryLozengeAddedClass = `aui-lozenge-success`;
+const fileChangeSummaryLozengeRenamedClass = `aui-lozenge-moved`;
+
+
 function myMain () {
     const completed = window.document.getElementById(completeSignatureId);
     const diffContainers = window.document.getElementsByClassName(diffContainerClass);
@@ -50,6 +57,51 @@ function myMain () {
         addLeftFileList();
         collapsableDiffs();
         addSignature();
+        addFileSummary();
+    }
+}
+
+function addFileSummary() {
+    const fileSummaryLozenges = window.document.getElementsByClassName(fileChangeSummaryLozenge);
+    const summary = {};
+    console.log(fileSummaryLozenges);
+    for(let i = 0; i < fileSummaryLozenges.length; i++) {
+        let changeText = fileSummaryLozenges[i].textContent;
+        changeText = changeText.replace(/\W/g, '');
+        console.log(changeText);
+        const currentCount = summary[changeText];
+        summary[changeText] = summary[changeText] ? currentCount + 1 : 1;
+    }
+
+    const summaryElement = window.document.getElementById(commitFilesSummaryId);
+
+    if(summary[`M`]) {
+        let modifiedSummary = document.createElement("span");
+        modifiedSummary.className = `${fileChangeSummaryLozenge} ${fileChangeSummaryLozengeCompleteClass}`;
+        modifiedSummary.textContent = `${summary[`M`]} Modified`;
+        modifiedSummary.style = `width: auto; padding: 2px 5px 2px 5px; margin: 5px`;
+        summaryElement.parentElement.appendChild(modifiedSummary);         
+    } 
+    if (summary[`A`]) {
+        let modifiedSummary = document.createElement("span");
+        modifiedSummary.className = `${fileChangeSummaryLozenge} ${fileChangeSummaryLozengeAddedClass}`;
+        modifiedSummary.textContent = `${summary[`A`]} Added`;
+        modifiedSummary.style = `width: auto; padding: 2px 5px 2px 5px; margin: 5px`;
+        summaryElement.parentElement.appendChild(modifiedSummary);    
+    } 
+    if (summary[`D`]) {
+        let modifiedSummary = document.createElement("span");
+        modifiedSummary.className = `${fileChangeSummaryLozenge} ${fileChangeSummaryLozengeDeletedClass}`;
+        modifiedSummary.textContent = `${summary[`D`]} Deleted`;
+        modifiedSummary.style = `width: auto; padding: 2px 5px 2px 5px; margin: 5px`;
+        summaryElement.parentElement.appendChild(modifiedSummary);    
+    } 
+    if (summary[`R`]) {
+        let modifiedSummary = document.createElement("span");
+        modifiedSummary.className = `${fileChangeSummaryLozenge} ${fileChangeSummaryLozengeRenamedClass}`;
+        modifiedSummary.textContent = `${summary[`R`]} Renamed`;
+        modifiedSummary.style = `width: auto; padding: 2px 5px 2px 5px; margin: 5px`;
+        summaryElement.parentElement.appendChild(modifiedSummary);    
     }
 }
 
