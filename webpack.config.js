@@ -1,7 +1,7 @@
 module.exports = {
   entry: './src/content.ts',
   output: {
-    filename: './src/content.js'
+    filename: './build/bundle.js'
   },
   target: 'web',
   resolve: {
