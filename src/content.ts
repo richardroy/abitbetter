@@ -1,3 +1,4 @@
+import { LeftNavService } from './services/LeftNavService';
 import { DiffBlockService, DiffBlock } from './services/DiffBlockService';
 
 const observeDOM = (function(){
@@ -36,7 +37,6 @@ const commitFilesSummaryId = "commit-files-summary";
 const diffStatsDivClass = "commit-file-diff-stats";
 const navigationParentClass = "adg3-navigation";
 const completeSignatureId = "abb-completed";
-const leftNavigationId = "adg3-navigation";
 const linesRemovedClass = "lines-removed";
 const diffContainerClass = "diff-container";
 const linesAddedClass = "lines-added";
@@ -53,7 +53,7 @@ function myMain () {
     if(diffContainers.length > 0 && !completed) {
         reshuffle();
         insertDiffTotal();
-        addLeftFileList();
+        LeftNavService.addLeftFileList();
         DiffBlockService.initialiseResizeButtons();
         addSignature();
         addFileSummary();
@@ -138,31 +138,6 @@ function createLozenge(textContent: string, lozengeClass: string) {
   modifiedSummary.setAttribute(`style`, `width: auto; padding: 2px 5px 2px 5px; margin: 5px`);
   return modifiedSummary;
 }
-
-function addLeftFileList() {
-    const summaryElement = window.document.getElementById(commitFilesSummaryId);
-    if(summaryElement){
-      const linkListName = summaryElement.getElementsByClassName(fileListLinkClass);
-      const linkList = linkListName;        
-      const navigationSubList = document.getElementById(leftNavigationId).firstChild.firstChild.firstChild.firstChild.childNodes[1].firstChild.childNodes[2].firstChild.firstChild;
-      let div = document.createElement("div");
-      div.setAttribute(`style`, `border-top: 1px solid black; margin: 10px;`);
-      navigationSubList.appendChild(div);
-      for(let i = 0; i < linkList.length; i++){
-        let clonedLink = linkList[i].cloneNode(true);
-        let textContent = clonedLink.textContent;
-        const splitUrl = textContent.split("/");
-        let linkText = `/${splitUrl[splitUrl.length-1]}`;
-        clonedLink.textContent = linkText;
-        (clonedLink as HTMLElement).title = textContent;
-        let linkWrapper = document.createElement("div");
-        linkWrapper.appendChild(clonedLink);
-        navigationSubList.appendChild(linkWrapper);                
-      }
-    } else {
-      console.warn("Delay: No summary element found");
-    }
-}  
 
 function insertDiffTotal() {
     //enter here the action you want to do once loaded
