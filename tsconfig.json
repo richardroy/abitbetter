@@ -1,14 +1,30 @@
 {
     "compilerOptions": {
-        "lib": [
-            "dom",
-            "es7"
-        ],
-        "outDir": "./dist/",
-        "noImplicitAny": true,
-        "module": "commonjs",
-        "target": "es6",
-        "jsx": "react",
-        "allowJs": true
-      }
-}
+      "target": "es5",
+      "lib": ["dom", "es5", "es2015.promise", "es2015.iterable", "es2015.symbol", "es2015.symbol.wellknown"],
+      "module": "commonjs",
+      "declaration": false,
+      "noImplicitAny": false,
+      "removeComments": false,
+      "experimentalDecorators": true,
+      "noLib": false,
+      "jsx": "react",
+      "outDir": "dist",
+      "importHelpers": true,
+      "moduleResolution": "node",
+      "allowJs": true
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules"],
+    "awesomeTypescriptLoaderOptions": {
+      "useCache": true,
+      "useBabel": true,
+      "babelOptions": {
+          "babelrc": false, /* Important line */
+          "presets": [
+              ["env"]
+          ]
+      },
+      "babelCore": "@babel/core" // needed for Babel v7
+    }
+  }
