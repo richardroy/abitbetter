@@ -53,10 +53,13 @@ export class LeftNavService {
     if(summaryElement){
       const collapseButton = this.getCollapseButton();
       collapseButton.addEventListener("click", () => {
-        const summaryElement = window.document.getElementById(this.commitFilesSummaryId);
-        if(!LeftNavService.fileListSubMenuAdded()){    
-          LeftNavService.addFilelistSubMenu(summaryElement);
-        }
+        const menuDelay = setInterval( () => {
+          const summaryElement = window.document.getElementById(this.commitFilesSummaryId);
+          if(!LeftNavService.fileListSubMenuAdded()){    
+            LeftNavService.addFilelistSubMenu(summaryElement);
+          }
+          clearInterval(menuDelay);
+        }, 500);
       })
 
       if(!this.menuCollapsed()){     
