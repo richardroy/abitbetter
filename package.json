@@ -1,0 +1,29 @@
+{
+  "name": "abitbetter",
+  "version": "1.0.0",
+  "description": "Chrome extension to add some functionality to bitbucket.",
+  "main": "content.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc",
+    "watch": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richardroy/abitbetter.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/richardroy/abitbetter/issues"
+  },
+  "homepage": "https://github.com/richardroy/abitbetter#readme",
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.35",
+    "awesome-typescript-loader": "^3.4.1",
+    "babel-preset-env": "^1.6.1",
+    "typescript": "^2.6.2",
+    "webpack": "^3.10.0"
+  },
+  "dependencies": {}
+}
