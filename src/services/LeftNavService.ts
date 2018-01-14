@@ -1,3 +1,5 @@
+import { DiffBlockHeaderService } from './DiffBlockHeaderService';
+import { DiffBlockService } from './DiffBlockService';
 import { LeftNavService } from './LeftNavService';
 // import * as cheerio from 'cheerio'
 
@@ -24,8 +26,7 @@ export class LeftNavService {
   }
 
   static addFilelistSubMenu(summaryElement) {
-    const linkListName = summaryElement.getElementsByClassName(this.fileListLinkClass);
-    const linkList = linkListName;   
+    const linkList = summaryElement.getElementsByClassName(this.fileListLinkClass);  
     const navigationSubList = this.getLeftMenuElement();
     let div = document.createElement("div");
     div.setAttribute(`id`, `filelist-break`);
@@ -34,14 +35,20 @@ export class LeftNavService {
     for(let i = 0; i < linkList.length; i++){
       let clonedLink = linkList[i].cloneNode(true);
       let textContent = clonedLink.textContent;
-      const splitUrl = textContent.split("/");
-      let linkText = `/${splitUrl[splitUrl.length-1]}`;
+      const linkText = this.getLinkText(textContent);
       clonedLink.textContent = linkText;
       (clonedLink as HTMLElement).title = textContent;
       let linkWrapper = document.createElement("div");
+      clonedLink.setAttribute(`class`, `cloned-link`);
       linkWrapper.appendChild(clonedLink);
       navigationSubList.appendChild(linkWrapper);                
     }    
+  }
+
+  private static getLinkText(textContent) {
+    const splitUrl = textContent.split("/");
+    let linkText = `${splitUrl[splitUrl.length-1]}`;
+    return linkText.replace(/\s/g,'');;
   }
 
   static fileListSubMenuAdded() {
@@ -70,3 +77,24 @@ export class LeftNavService {
     }
   }
 } 
+
+document.addEventListener("scroll", () => {
+  const diffBlocks = DiffBlockService.getDiffBlockOnScreen(print);
+
+  const clonedLinks = document.getElementsByClassName(`cloned-link`);
+  console.log(clonedLinks);
+  for(let i =0; i < clonedLinks.length; i++) {
+    for(let j = 0; j< diffBlocks.length; j++ ) {
+      const filename = DiffBlockHeaderService.getFileName(diffBlocks[j].header);
+      console.log(filename);
+      console.log(clonedLinks[i].textContent);
+      console.log(filename);
+      if(clonedLinks[i].textContent === filename) {
+        clonedLinks[i].setAttribute(`style`, `border-bottom: 1px solid #000;`);
+        break;
+      } else {
+        clonedLinks[i].setAttribute(`style`, ``);        
+      }
+    }
+  }
+});

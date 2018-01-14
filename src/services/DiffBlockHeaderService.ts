@@ -16,6 +16,13 @@ export class DiffBlockHeaderService {
     return resizeButton;
   }
 
+  static getFileName(diffBlockHeader) {
+    const filePath = diffBlockHeader.getElementsByClassName("filename")[0].childNodes[2].nodeValue.replace(/\s/g,'');
+    const splitFilePath = filePath.split(`/`);
+    const fileName = splitFilePath[splitFilePath.length -1];
+    return fileName;
+  }
+
   static addResizeBlockButton(diffBlock: DiffBlock) {
     const resizeBody: HTMLElement = document.createElement("span");
     resizeBody.className = this.minimizeButtonClass;

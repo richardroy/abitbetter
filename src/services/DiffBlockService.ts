@@ -14,14 +14,19 @@ export class DiffBlockService {
   static commitFilesSummaryId: string = "commit-files-summary";  
   static diffContainerClass: string = "diff-container";  
 
-  static initialiseResizeButtons() {
-    const diffContainers = window.document.getElementsByClassName(this.diffContainerClass);
+  static getDiffBlocks() {
+    const diffContainers = window.document.getElementsByClassName(this.diffContainerClass);    
     const diffBlocks:Array<DiffBlock> = [];
     for(let i =0; i < diffContainers.length; i++) {
       const diffBlock = this.toDiffBlock(diffContainers[i]);
       diffBlocks.push(diffBlock);
-    }
+    } 
 
+    return diffBlocks;
+  }
+
+  static initialiseResizeButtons() {
+    const diffBlocks = this.getDiffBlocks();
     this.addResizeBlockButtons(diffBlocks);
     this.addResizeAll(diffBlocks);
   }
@@ -32,6 +37,14 @@ export class DiffBlockService {
     } else {
         DiffBlockService.expand(diffBlock);        
     }
+  }
+
+  static getDiffBlockOnScreen(print) {
+    const diffBlocks = this.getDiffBlocks();
+    const diffBlocksOnScreen = diffBlocks.filter( 
+      diffBlock => diffBlock.body.getBoundingClientRect().top < 1080 && diffBlock.body.getBoundingClientRect().bottom > 0
+    );
+    return diffBlocksOnScreen;
   }
 
   private static addResizeBlockButtons(diffBlocks: Array<DiffBlock>) {
