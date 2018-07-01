@@ -39,7 +39,7 @@ export class DiffBlockService {
     }
   }
 
-  static getDiffBlockOnScreen(print) {
+  static getDiffBlockOnScreen() {
     const diffBlocks = this.getDiffBlocks();
     const diffBlocksOnScreen = diffBlocks.filter( 
       diffBlock => diffBlock.body.getBoundingClientRect().top < 1080 && diffBlock.body.getBoundingClientRect().bottom > 0

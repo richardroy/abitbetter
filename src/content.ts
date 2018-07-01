@@ -51,12 +51,12 @@ function myMain () {
     const completed = window.document.getElementById(completeSignatureId);
     const diffContainers = window.document.getElementsByClassName(diffContainerClass);
     if(diffContainers.length > 0 && !completed) {
-        reshuffle();
+        // reshuffle();
         insertDiffTotal();
-        LeftNavService.addLeftFileList();
-        DiffBlockService.initialiseResizeButtons();
+        // LeftNavService.addLeftFileList();
+        // DiffBlockService.initialiseResizeButtons();
+        // addFileSummary();
         addSignature();
-        addFileSummary();
     }
 }
 

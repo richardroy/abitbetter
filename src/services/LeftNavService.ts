@@ -1,6 +1,5 @@
 import { DiffBlockHeaderService } from './DiffBlockHeaderService';
 import { DiffBlockService } from './DiffBlockService';
-import { LeftNavService } from './LeftNavService';
 // import * as cheerio from 'cheerio'
 
 export class LeftNavService {
@@ -79,7 +78,7 @@ export class LeftNavService {
 } 
 
 document.addEventListener("scroll", () => {
-  const diffBlocks = DiffBlockService.getDiffBlockOnScreen(print);
+  const diffBlocks = DiffBlockService.getDiffBlockOnScreen();
 
   const clonedLinks = document.getElementsByClassName(`cloned-link`);
   console.log(clonedLinks);
