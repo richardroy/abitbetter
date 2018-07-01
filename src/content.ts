@@ -55,7 +55,7 @@ function myMain () {
         insertDiffTotal();
         LeftNavService.addLeftFileList();
         DiffBlockService.initialiseResizeButtons();
-        // addFileSummary();
+        addFileSummary();
         addSignature();
     }
 }
