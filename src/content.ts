@@ -53,7 +53,7 @@ function myMain () {
     if(diffContainers.length > 0 && !completed) {
         // reshuffle();
         insertDiffTotal();
-        // LeftNavService.addLeftFileList();
+        LeftNavService.addLeftFileList();
         DiffBlockService.initialiseResizeButtons();
         // addFileSummary();
         addSignature();

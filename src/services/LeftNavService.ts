@@ -8,15 +8,16 @@ export class LeftNavService {
   static leftNavigationId = "adg3-navigation";
   
   static menuCollapsed() {
-    return document.getElementById("adg3-navigation").firstChild.firstChild.firstChild.firstChild.childNodes[1].firstChild.childNodes[2] === undefined
+    return document.getElementById("adg3-navigation").firstChild.firstChild.firstChild.childNodes[1].firstChild.childNodes[2] === undefined
   }
 
   static getLeftMenuElement() {
-    return document.getElementById(this.leftNavigationId).firstChild.firstChild.firstChild.firstChild.childNodes[1].firstChild.childNodes[2].firstChild.firstChild;
+    return document.getElementById(this.leftNavigationId).firstChild.firstChild.firstChild.childNodes[1].firstChild.childNodes[2].firstChild.firstChild;
   } 
 
   static getCollapseButton() {
-    const childNodes  = document.getElementById(this.leftNavigationId).firstChild.firstChild.firstChild.firstChild.childNodes;
+    const childNodes  = document.getElementById(this.leftNavigationId).firstChild.firstChild.firstChild.childNodes;
+    console.log(childNodes);
     if(childNodes.length === 3) {
       return childNodes[2].firstChild;
     } else {
@@ -25,12 +26,15 @@ export class LeftNavService {
   }
 
   static addFilelistSubMenu(summaryElement) {
+    console.log(summaryElement);
     const linkList = summaryElement.getElementsByClassName(this.fileListLinkClass);  
     const navigationSubList = this.getLeftMenuElement();
+    console.log(navigationSubList);
     let div = document.createElement("div");
     div.setAttribute(`id`, `filelist-break`);
     div.setAttribute(`style`, `border-top: 1px solid black; margin: 10px;`);
     navigationSubList.appendChild(div);
+    console.log(linkList);
     for(let i = 0; i < linkList.length; i++){
       let clonedLink = linkList[i].cloneNode(true);
       let textContent = clonedLink.textContent;
@@ -58,6 +62,7 @@ export class LeftNavService {
     const summaryElement = window.document.getElementById(this.commitFilesSummaryId);
     if(summaryElement){
       const collapseButton = this.getCollapseButton();
+      console.log(collapseButton);
       collapseButton.addEventListener("click", () => {
         const menuDelay = setInterval( () => {
           const summaryElement = window.document.getElementById(this.commitFilesSummaryId);
