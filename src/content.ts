@@ -54,7 +54,7 @@ function myMain () {
         // reshuffle();
         insertDiffTotal();
         // LeftNavService.addLeftFileList();
-        // DiffBlockService.initialiseResizeButtons();
+        DiffBlockService.initialiseResizeButtons();
         // addFileSummary();
         addSignature();
     }
