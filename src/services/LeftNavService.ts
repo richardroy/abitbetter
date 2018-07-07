@@ -1,26 +1,23 @@
 import { DiffBlockHeaderService } from './DiffBlockHeaderService';
 import { DiffBlockService } from './DiffBlockService';
-// import * as cheerio from 'cheerio'
 
 export class LeftNavService {
   static commitFilesSummaryId = "commit-files-summary";
   static fileListLinkClass = "commit-files-summary--filename";
   static leftNavigationId = "adg3-navigation";
-  
-  static menuCollapsed() {
-    return document.getElementById("adg3-navigation").firstChild.firstChild.firstChild.childNodes[1].firstChild.childNodes[2] === undefined
-  }
 
   static getLeftMenuElement() {
     return document.getElementById(this.leftNavigationId).firstChild.firstChild.firstChild.childNodes[1].firstChild.childNodes[2].firstChild.firstChild;
-  } 
+  }
 
   static getCollapseButton() {
     const childNodes  = document.getElementById(this.leftNavigationId).firstChild.firstChild.firstChild.childNodes;
     if(childNodes.length === 3) {
       return childNodes[2].firstChild;
-    } else {
+    } else if(childNodes.length === 2) {
       return childNodes[1].firstChild;
+    } else {
+      return null;
     }
   }
 
@@ -30,6 +27,7 @@ export class LeftNavService {
     let div = document.createElement("div");
     div.setAttribute(`id`, `filelist-break`);
     div.setAttribute(`style`, `border-top: 1px solid black; margin: 10px;`);
+    div.setAttribute(`class`, `commit-sub-list`);
     navigationSubList.appendChild(div);
     for(let i = 0; i < linkList.length; i++){
       let clonedLink = linkList[i].cloneNode(true);
@@ -38,6 +36,7 @@ export class LeftNavService {
       clonedLink.textContent = linkText;
       (clonedLink as HTMLElement).title = textContent;
       let linkWrapper = document.createElement("div");
+      linkWrapper.setAttribute('class', 'commit-sub-list');
       clonedLink.setAttribute(`class`, `cloned-link`);
       linkWrapper.appendChild(clonedLink);
       navigationSubList.appendChild(linkWrapper);                
@@ -54,28 +53,62 @@ export class LeftNavService {
     return document.getElementById(`filelist-break`) !== null;
   }
 
+  static isLeftMenuOpen() {
+    let leftNavigation;
+    try {
+      leftNavigation =  document.getElementById(this.leftNavigationId).firstChild.firstChild.firstChild.childNodes[1].firstChild.childNodes[2];
+      return leftNavigation !== undefined;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  static isSubCommitListThere() {
+    const fileListBreak = document.getElementById('filelist-break');
+    return fileListBreak != null;
+  }
+
   static addLeftFileList() {
-    const summaryElement = window.document.getElementById(this.commitFilesSummaryId);
-    if(summaryElement){
-      const collapseButton = this.getCollapseButton();
+
+    if(!this.isSubCommitListThere()){
+      const summaryElement = window.document.getElementById(this.commitFilesSummaryId);
+      if(summaryElement){
+        if(this.isLeftMenuOpen()){
+          this.addFilelistSubMenu(summaryElement);
+        }
+      }
+    }
+
+    const collapseButton = this.getCollapseButton();
+    if(collapseButton) {
       collapseButton.addEventListener("click", () => {
+        if(this.isSubCommitListThere()){
+          const elements = document.getElementsByClassName('commit-sub-list');
+          while(elements.length > 0) {
+            const parent = (elements[0] as HTMLElement).parentNode
+            parent.removeChild(elements[0]);
+          }
+        }
+        
         const menuDelay = setInterval( () => {
-          const summaryElement = window.document.getElementById(this.commitFilesSummaryId);
-          if(!LeftNavService.fileListSubMenuAdded()){    
-            LeftNavService.addFilelistSubMenu(summaryElement);
+          if(!this.isSubCommitListThere()){
+            const summaryElement = window.document.getElementById(this.commitFilesSummaryId);
+            if(summaryElement) {
+              if(this.isLeftMenuOpen()){
+                LeftNavService.addFilelistSubMenu(summaryElement);
+              }
+            }
           }
           clearInterval(menuDelay);
         }, 500);
       })
-
-      if(!this.menuCollapsed()){     
-        this.addFilelistSubMenu(summaryElement);
-      }
-    } else {
-      console.warn("Delay: No summary element found");
     }
   }
-} 
+}
+
+window.addEventListener("resize", function() {
+  LeftNavService.addLeftFileList();
+});
 
 // document.addEventListener("scroll", () => {
 //   const diffBlocks = DiffBlockService.getDiffBlockOnScreen();
