@@ -66,10 +66,7 @@ export class DiffBlockService {
   }
 
   private static addResizeAll(diffBlocks: Array<DiffBlock>) {
-    let resizeAll = document.createElement("span");
-    resizeAll.className = this.resizeButtonClass;
-    resizeAll.textContent = `Minimize All`;
-    resizeAll.onclick = function(){DiffBlockService.alternateResizeOnDiffBlocks(resizeAll, diffBlocks)};
+    let resizeAll = this.createResizeAllElement(diffBlocks);
     const summaryElement = window.document.getElementById(this.commitFilesSummaryId);
     summaryElement.appendChild(resizeAll);
   }
@@ -106,5 +103,14 @@ export class DiffBlockService {
     resizeButton.textContent = "Minimize";
     diffBlock.body.setAttribute(`style`, ``);
     diffBlock.header.setAttribute(`style`, "border-bottom: none")
+  }
+
+
+  private static createResizeAllElement(diffBlocks) {
+    let resizeAll = document.createElement("span");
+    resizeAll.className = this.resizeButtonClass;
+    resizeAll.textContent = `Minimize All`;
+    resizeAll.onclick = function(){DiffBlockService.alternateResizeOnDiffBlocks(resizeAll, diffBlocks)};
+    return resizeAll;
   }
 }

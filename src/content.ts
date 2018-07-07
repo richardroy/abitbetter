@@ -105,33 +105,33 @@ function addFileSummary() {
     if(summary[`M`]) {
       const textContent = `${summary[`M`]} Modified`;
       const lozengeClass = fileChangeSummaryLozengeCompleteClass; 
-      const lozenge = createLozenge(textContent, lozengeClass);
+      const lozenge = createLozengeElement(textContent, lozengeClass);
       summaryElement.parentElement.appendChild(lozenge);         
     }
 
     if (summary[`A`]) {
       const textContent = `${summary[`A`]} Added`;      
       const lozengeClass = fileChangeSummaryLozengeAddedClass;
-      const lozenge = createLozenge(textContent, lozengeClass);      
+      const lozenge = createLozengeElement(textContent, lozengeClass);      
       summaryElement.parentElement.appendChild(lozenge);    
     }
 
     if (summary[`D`]) {
       const lozengeClass = fileChangeSummaryLozengeDeletedClass;
       const textContent = `${summary[`D`]} Deleted`;      
-      const lozenge = createLozenge(textContent, lozengeClass);      
+      const lozenge = createLozengeElement(textContent, lozengeClass);      
       summaryElement.parentElement.appendChild(lozenge);
     }
 
     if (summary[`R`]) {
       const lozengeClass = fileChangeSummaryLozengeRenamedClass;
       const textContent = `${summary[`R`]} Renamed`;
-      const lozenge = createLozenge(textContent, lozengeClass);      
+      const lozenge = createLozengeElement(textContent, lozengeClass);      
       summaryElement.parentElement.appendChild(lozenge);  
     }
 }
 
-function createLozenge(textContent: string, lozengeClass: string) {
+function createLozengeElement(textContent: string, lozengeClass: string) {
   let modifiedSummary = document.createElement("span");
   modifiedSummary.className = `${fileChangeSummaryLozenge} ${lozengeClass}`;
   modifiedSummary.textContent = textContent;

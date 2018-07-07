@@ -58,6 +58,14 @@ export class LeftNavService {
     return fileListBreak != null;
   }
 
+  static removeSubCommitList() {
+    const elements = document.getElementsByClassName('commit-sub-list');
+    while(elements.length > 0) {
+      const parent = (elements[0] as HTMLElement).parentNode
+      parent.removeChild(elements[0]);
+    }    
+  }
+
   static addLeftFileList() {
 
     if(!this.isSubCommitListThere()){
@@ -73,11 +81,7 @@ export class LeftNavService {
     if(collapseButton) {
       collapseButton.addEventListener("click", () => {
         if(this.isSubCommitListThere()){
-          const elements = document.getElementsByClassName('commit-sub-list');
-          while(elements.length > 0) {
-            const parent = (elements[0] as HTMLElement).parentNode
-            parent.removeChild(elements[0]);
-          }
+          this.removeSubCommitList();
         } else {
           const menuDelay = setInterval( () => {
             const summaryElement = window.document.getElementById(this.commitFilesSummaryId);
