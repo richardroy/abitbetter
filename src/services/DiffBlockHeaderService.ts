@@ -24,17 +24,22 @@ export class DiffBlockHeaderService {
   }
 
   static addResizeBlockButton(diffBlock: DiffBlock) {
-    const resizeBody: HTMLElement = document.createElement("span");
-    resizeBody.className = this.minimizeButtonClass;
-    resizeBody.textContent = "Minimize";
-    resizeBody.onclick = () => {DiffBlockService.alternateCollapse(resizeBody.textContent, diffBlock)};
     const headerPrimary: Element = DiffBlockHeaderService.getHeaderPrimary(diffBlock.header);
+    const resizeBody = this.createResizeBodyElement(diffBlock);
     headerPrimary.appendChild(resizeBody);
   }
 
   private static getHeaderPrimary(diffContainerHeader: Element) {
     const headerPrimary = diffContainerHeader.getElementsByClassName(this.primaryHeaderClass)[0];
     return headerPrimary;
+  }
+
+  private static createResizeBodyElement(diffBlock) {
+    const resizeBody: HTMLElement = document.createElement("span");
+    resizeBody.className = this.minimizeButtonClass;
+    resizeBody.textContent = "Minimize";
+    resizeBody.onclick = () => {DiffBlockService.alternateCollapse(resizeBody.textContent, diffBlock)};
+    return resizeBody;
   }
 
 }
