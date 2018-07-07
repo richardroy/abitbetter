@@ -88,19 +88,17 @@ export class LeftNavService {
             const parent = (elements[0] as HTMLElement).parentNode
             parent.removeChild(elements[0]);
           }
-        }
-        
-        const menuDelay = setInterval( () => {
-          if(!this.isSubCommitListThere()){
+        } else {
+          const menuDelay = setInterval( () => {
             const summaryElement = window.document.getElementById(this.commitFilesSummaryId);
             if(summaryElement) {
               if(this.isLeftMenuOpen()){
                 LeftNavService.addFilelistSubMenu(summaryElement);
               }
             }
-          }
-          clearInterval(menuDelay);
-        }, 500);
+            clearInterval(menuDelay);
+          }, 250);
+        }
       })
     }
   }
