@@ -38,11 +38,8 @@ export class LeftNavService {
     let linkText = `${splitUrl[splitUrl.length-1]}`;
     let formattedText = linkText.replace(/\s/g,'');
     if(formattedText.indexOf('→') > -1){
-      console.log('ARRROW');
       formattedText = formattedText.split(`→`)[1];
     }
-    console.log(splitUrl);
-    console.log(formattedText);
     return formattedText;
   }
 
