@@ -24,21 +24,11 @@ export class LeftNavService {
   static addFilelistSubMenu(summaryElement) {
     const linkList = summaryElement.getElementsByClassName(this.fileListLinkClass);  
     const navigationSubList = this.getLeftMenuElement();
-    let div = document.createElement("div");
-    div.setAttribute(`id`, `filelist-break`);
-    div.setAttribute(`style`, `border-top: 1px solid black; margin: 10px;`);
-    div.setAttribute(`class`, `commit-sub-list`);
-    navigationSubList.appendChild(div);
+    let lineBreak = this.createSubCommitListLineBreak();
+    navigationSubList.appendChild(lineBreak);
     for(let i = 0; i < linkList.length; i++){
       let clonedLink = linkList[i].cloneNode(true);
-      let textContent = clonedLink.textContent;
-      const linkText = this.getLinkText(textContent);
-      clonedLink.textContent = linkText;
-      (clonedLink as HTMLElement).title = textContent;
-      let linkWrapper = document.createElement("div");
-      linkWrapper.setAttribute('class', 'commit-sub-list');
-      clonedLink.setAttribute(`class`, `cloned-link`);
-      linkWrapper.appendChild(clonedLink);
+      const linkWrapper = this.createSubCommitListLink(clonedLink);
       navigationSubList.appendChild(linkWrapper);                
     }    
   }
@@ -46,11 +36,14 @@ export class LeftNavService {
   private static getLinkText(textContent) {
     const splitUrl = textContent.split("/");
     let linkText = `${splitUrl[splitUrl.length-1]}`;
-    return linkText.replace(/\s/g,'');;
-  }
-
-  static fileListSubMenuAdded() {
-    return document.getElementById(`filelist-break`) !== null;
+    let formattedText = linkText.replace(/\s/g,'');
+    if(formattedText.indexOf('→') > -1){
+      console.log('ARRROW');
+      formattedText = formattedText.split(`→`)[1];
+    }
+    console.log(splitUrl);
+    console.log(formattedText);
+    return formattedText;
   }
 
   static isLeftMenuOpen() {
@@ -102,6 +95,27 @@ export class LeftNavService {
       })
     }
   }
+
+  static createSubCommitListLineBreak() {
+    let div = document.createElement("div");
+    div.setAttribute(`id`, `filelist-break`);
+    div.setAttribute(`style`, `border-top: 1px solid black; margin: 10px;`);
+    div.setAttribute(`class`, `commit-sub-list`);
+    return div;
+  }
+
+  static createSubCommitListLink(clonedLink) {
+    let textContent = clonedLink.textContent;
+    const linkText = this.getLinkText(textContent);
+    clonedLink.textContent = linkText;
+    (clonedLink as HTMLElement).title = textContent;
+    let linkWrapper = document.createElement("div");
+    linkWrapper.setAttribute('class', 'commit-sub-list');
+    clonedLink.setAttribute(`class`, `cloned-link`);
+    linkWrapper.appendChild(clonedLink);
+    return linkWrapper;
+  }
+
 }
 
 window.addEventListener("resize", function() {
