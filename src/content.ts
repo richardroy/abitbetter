@@ -1,5 +1,6 @@
 import { LeftNavService } from './services/LeftNavService';
 import { DiffBlockService, DiffBlock } from './services/DiffBlockService';
+import Lozenge from './components/Lozenge';
 
 const observeDOM = (function(){
     let MutationObserver = (window as any)["MutationObserver"] || (window as any)["WebKitMutationObserver"],
@@ -104,39 +105,27 @@ function addFileSummary() {
 
     if(summary[`M`]) {
       const textContent = `${summary[`M`]} Modified`;
-      const lozengeClass = fileChangeSummaryLozengeCompleteClass; 
-      const lozenge = createLozengeElement(textContent, lozengeClass);
+      const lozenge = Lozenge.createLozenge(textContent, fileChangeSummaryLozengeCompleteClass);
       summaryElement.parentElement.appendChild(lozenge);         
     }
 
     if (summary[`A`]) {
       const textContent = `${summary[`A`]} Added`;      
-      const lozengeClass = fileChangeSummaryLozengeAddedClass;
-      const lozenge = createLozengeElement(textContent, lozengeClass);      
+      const lozenge = Lozenge.createLozenge(textContent, fileChangeSummaryLozengeAddedClass);      
       summaryElement.parentElement.appendChild(lozenge);    
     }
 
     if (summary[`D`]) {
-      const lozengeClass = fileChangeSummaryLozengeDeletedClass;
       const textContent = `${summary[`D`]} Deleted`;      
-      const lozenge = createLozengeElement(textContent, lozengeClass);      
+      const lozenge = Lozenge.createLozenge(textContent, fileChangeSummaryLozengeDeletedClass);      
       summaryElement.parentElement.appendChild(lozenge);
     }
 
     if (summary[`R`]) {
-      const lozengeClass = fileChangeSummaryLozengeRenamedClass;
       const textContent = `${summary[`R`]} Renamed`;
-      const lozenge = createLozengeElement(textContent, lozengeClass);      
+      const lozenge = Lozenge.createLozenge(textContent, fileChangeSummaryLozengeRenamedClass);      
       summaryElement.parentElement.appendChild(lozenge);  
     }
-}
-
-function createLozengeElement(textContent: string, lozengeClass: string) {
-  let modifiedSummary = document.createElement("span");
-  modifiedSummary.className = `${fileChangeSummaryLozenge} ${lozengeClass}`;
-  modifiedSummary.textContent = textContent;
-  modifiedSummary.setAttribute(`style`, `width: auto; padding: 2px 5px 2px 5px; margin: 5px`);
-  return modifiedSummary;
 }
 
 function insertDiffTotal() {
