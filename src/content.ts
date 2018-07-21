@@ -1,5 +1,6 @@
-import { LeftNavService } from './services/LeftNavService';
+import FilesChangedSummaryService from './services/FilesChangedSummaryService';
 import { DiffBlockService, DiffBlock } from './services/DiffBlockService';
+import { LeftNavService } from './services/LeftNavService';
 import Lozenge from './components/Lozenge';
 
 const observeDOM = (function(){
@@ -56,7 +57,7 @@ function myMain () {
         insertDiffTotal();
         LeftNavService.addLeftFileList();
         DiffBlockService.initialiseResizeButtons();
-        addFileSummary();
+        FilesChangedSummaryService.createFileSummaryLozenges();
         addSignature();
     }
 }
@@ -88,43 +89,6 @@ function reshuffle() {
 
     for(let i = 0; i < shuffleDiffs.length; i++) {
       diffParent.appendChild(shuffleDiffs[i].parentElement);
-    }
-}
-
-function addFileSummary() {
-    const fileSummaryLozenges = window.document.getElementsByClassName(fileChangeSummaryLozenge);
-    const summary: any = {};
-    for(let i = 0; i < fileSummaryLozenges.length; i++) {
-      let changeText = fileSummaryLozenges[i].textContent;
-      changeText = changeText.replace(/\W/g, '');
-      const currentCount:any = summary[changeText];
-      summary[changeText] = summary[changeText] ? currentCount + 1 : 1;
-    }
-
-    const summaryElement = window.document.getElementById(commitFilesSummaryId);
-
-    if(summary[`M`]) {
-      const textContent = `${summary[`M`]} Modified`;
-      const lozenge = Lozenge.createLozenge(textContent, fileChangeSummaryLozengeCompleteClass);
-      summaryElement.parentElement.appendChild(lozenge);         
-    }
-
-    if (summary[`A`]) {
-      const textContent = `${summary[`A`]} Added`;      
-      const lozenge = Lozenge.createLozenge(textContent, fileChangeSummaryLozengeAddedClass);      
-      summaryElement.parentElement.appendChild(lozenge);    
-    }
-
-    if (summary[`D`]) {
-      const textContent = `${summary[`D`]} Deleted`;      
-      const lozenge = Lozenge.createLozenge(textContent, fileChangeSummaryLozengeDeletedClass);      
-      summaryElement.parentElement.appendChild(lozenge);
-    }
-
-    if (summary[`R`]) {
-      const textContent = `${summary[`R`]} Renamed`;
-      const lozenge = Lozenge.createLozenge(textContent, fileChangeSummaryLozengeRenamedClass);      
-      summaryElement.parentElement.appendChild(lozenge);  
     }
 }
 
